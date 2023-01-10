@@ -1,2 +1,2 @@
 # Python_Course
-![Logo](https://https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.aegissofttech.com%2Farticles%2Fwhy-does-experience-of-python-developer-matter.html&psig=AOvVaw1jgSdP0kWTIfVHSWeWMdCb&ust=1673451568863000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCPiHyIWrvfwCFQAAAAAdAAAAABAE.jpg)
+![Logo](![image](https://user-images.githubusercontent.com/102974324/211595768-eb9408ef-8489-4a4d-8ffc-82f4e6af2a6d.png))
