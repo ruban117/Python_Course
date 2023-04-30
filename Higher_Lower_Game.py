@@ -22,6 +22,8 @@ import random
 import os
 a=random.choice(game_data.data)
 b=random.choice(game_data.data)
+if a == b:
+    a=random.choice(game_data.data)
 game=True
 i=0
 print(logo)
