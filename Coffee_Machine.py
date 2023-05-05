@@ -5,19 +5,19 @@ def calculate_dollars(q,d,n,p):
     return calc
 
 def check_espresso(water,coffee):
-    if water>50 and coffee>18:
+    if water>=50 and coffee>=18:
         return True
     else:
         return False
 
 def check_latte(water,milk,coffee):
-    if water>200 and coffee>24 and milk>150:
+    if water>=200 and coffee>=24 and milk>=150:
         return True
     else:
         return False
 
 def check_cappuccino(water,milk,coffee):
-    if water>250 and coffee>24 and milk>100:
+    if water>=250 and coffee>=24 and milk>=100:
         return True
     else:
         return False
@@ -71,48 +71,47 @@ def condition(coffee_brand):
     if calculate_dollars(quaters, dimes, nickles, pennies)<coffee_data.MENU[coffee_brand]["cost"]:
         print("Sorry that's not enough money. Money refunded.")
     else:
-        n=calculate_dollars(quaters, dimes, nickles, pennies)
-        change=n-coffee_data.MENU[coffee_brand]["cost"]
-        print("Here is $","%.1f" %change,"in change.")
-        print(f"Here is your {coffee_brand} ☕️. Enjoy!")
-Water= 300
-Milk= 200
-Coffee= 100
-Money= 0
+        if coffee_brand == 'espresso':
+            n=calculate_dollars(quaters, dimes, nickles, pennies)
+            change=n-coffee_data.MENU[coffee_brand]["cost"]
+            coffee_data.resources['Water']-=coffee_data.MENU["espresso"]["ingredients"]["water"]
+            coffee_data.resources['Coffee']-=coffee_data.MENU["espresso"]["ingredients"]["coffee"]
+            coffee_data.resources['Money']+=coffee_data.MENU["espresso"]["cost"]
+            print("Here is $","%.1f" %change,"in change.")
+            print(f"Here is your {coffee_brand} ☕️. Enjoy!")
+        else:
+            n=calculate_dollars(quaters, dimes, nickles, pennies)
+            change=n-coffee_data.MENU[coffee_brand]["cost"]
+            coffee_data.resources['Water']-=coffee_data.MENU[coffee_brand]["ingredients"]["water"]
+            coffee_data.resources['Milk']-=coffee_data.MENU[coffee_brand]["ingredients"]["milk"]
+            coffee_data.resources['Coffee']-=coffee_data.MENU[coffee_brand]["ingredients"]["coffee"]
+            coffee_data.resources['Money']+=coffee_data.MENU[coffee_brand]["cost"]
+            print("Here is $","%.1f" %change,"in change.")
+            print(f"Here is your {coffee_brand} ☕️. Enjoy!")
+
 turn_off=True
 while turn_off != False:
     user_choice=input("What Do You Like? (espresso/latte/cappuccino): ").lower()
     if user_choice == 'report':
-        print(f"Water={Water}ml")
-        print(f"Milk={Milk}ml")
-        print(f"Coffee={Coffee}ml")
-        print("Money= $","%.1f" %Money)
+        print("Water=",coffee_data.resources["Water"],"ml")
+        print("Milk=",coffee_data.resources["Milk"],"ml")
+        print("Coffee=",coffee_data.resources["Coffee"],"ml")
+        print("Money=$",coffee_data.resources["Money"])
     elif user_choice == 'espresso':
-        if check_espresso(Water,Coffee):
-            condition("espresso")
-            Water-=coffee_data.MENU["espresso"]["ingredients"]["water"]
-            Coffee-=coffee_data.MENU["espresso"]["ingredients"]["coffee"]
-            Money+=coffee_data.MENU["espresso"]["cost"]
+        if check_espresso(coffee_data.resources['Water'],coffee_data.resources['Coffee']):
+            condition("espresso")   
         else:
-            check_ingrediants_espresso(Water,Coffee)
+            check_ingrediants_espresso(coffee_data.resources['Water'],coffee_data.resources['Coffee'])
     elif user_choice =='latte':
-        if check_latte(Water, Milk, Coffee):
+        if check_latte(coffee_data.resources['Water'], coffee_data.resources['Milk'], coffee_data.resources['Coffee']):
             condition("latte")
-            Water-=coffee_data.MENU["latte"]["ingredients"]["water"]
-            Milk-=coffee_data.MENU["latte"]["ingredients"]["milk"]
-            Coffee-=coffee_data.MENU["latte"]["ingredients"]["coffee"]
-            Money+=coffee_data.MENU["latte"]["cost"]
         else:
-            check_ingrediants_latte(Water, Milk, Coffee)
+            check_ingrediants_latte(coffee_data.resources['Water'], coffee_data.resources['Milk'], coffee_data.resources['Coffee'])
     elif user_choice == 'cappuccino':
-        if check_cappuccino(Water, Milk, Coffee):
+        if check_cappuccino(coffee_data.resources['Water'], coffee_data.resources['Milk'], coffee_data.resources['Coffee']):
             condition("cappuccino")
-            Water-=coffee_data.MENU["cappuccino"]["ingredients"]["water"]
-            Milk-=coffee_data.MENU["cappuccino"]["ingredients"]["milk"]
-            Coffee-=coffee_data.MENU["cappuccino"]["ingredients"]["coffee"]
-            Money+=coffee_data.MENU["cappuccino"]["cost"]
         else:
-            check_ingrediants_cappuccino(Water, Milk, Coffee)
+            check_ingrediants_cappuccino(coffee_data.resources['Water'], coffee_data.resources['Milk'], coffee_data.resources['Coffee'])
     elif user_choice == 'off':
         print("Thank You For Using Ruban's Coffee Machine Again Come!!")
         turn_off=False
